@@ -1,44 +1,73 @@
-# Language support configuration.
-# See the languages documentation: https://docs.helix-editor.com/master/languages.html
-
-[language-server]
-
-awk-language-server = { command = "awk-language-server" }
-bash-language-server = { command = "bash-language-server", args = ["start"] }
-clangd = { command = "clangd" }
-cmake-language-server = { command = "cmake-language-server" }
-docker-langserver = { command = "docker-langserver", args = ["--stdio"] }
-yaml-language-server = { command = "yaml-language-server", args = ["--stdio"] }
-zls = { command = "zls" }
-vscode-css-language-server = { command = "vscode-css-language-server", args = ["--stdio"], config = { "provideFormatter" = true }}
-vscode-html-language-server = { command = "vscode-html-language-server", args = ["--stdio"], config = { provideFormatter = true } }
-vscode-json-language-server =  { command = "vscode-json-language-server", args = ["--stdio"], config = { provideFormatter = true } }
+[[language]]
+name = "dockerfile"
+scope = "source.dockerfile"
+injection-regex = "docker|dockerfile"
+roots = ["Dockerfile"]
+file-types = ["Dockerfile", "dockerfile"]
+comment-token = "#"
+indent = { tab-width = 2, unit = "  " }
+language-server = { command = "docker-langserver", args = ["--stdio"] }
 
 [[language]]
-name = "cpp"
-scope = "source.cpp"
-injection-regex = "cpp"
-file-types = ["cc", "hh", "c++", "cpp", "hpp", "h", "ipp", "tpp", "cxx", "hxx", "ixx", "txx", "ino", "C", "H", "cu", "cuh"]
+name = "git-commit"
+scope = "git.commitmsg"
 roots = []
-comment-token = "//"
-language-servers = [ "clangd" ]
-indent = { tab-width = 4, unit = "    " }
+file-types = ["COMMIT_EDITMSG"]
+comment-token = "#"
+indent = { tab-width = 2, unit = "  " }
 
-[[grammar]]
-name = "cpp"
-source = { git = "https://github.com/tree-sitter/tree-sitter-cpp", rev = "2d2c4aee8672af4c7c8edff68e7dd4c07e88d2b1" }
+[[language]]
+name = "git-diff"
+scope = "source.diff"
+roots = []
+file-types = ["diff"]
+injection-regex = "diff"
+comment-token = "#"
+indent = { tab-width = 2, unit = "  " }
 
+[[language]]
+name = "git-rebase"
+scope = "source.gitrebase"
+roots = []
+file-types = ["git-rebase-todo"]
+injection-regex = "git-rebase"
+comment-token = "#"
+indent = { tab-width = 2, unit = " " }[[language]]
+name = "dockerfile"
+scope = "source.dockerfile"
+injection-regex = "docker|dockerfile"
+roots = ["Dockerfile"]
+file-types = ["Dockerfile", "dockerfile"]
+comment-token = "#"
+indent = { tab-width = 2, unit = "  " }
+language-server = { command = "docker-langserver", args = ["--stdio"] }
 
-[language-server.rust-analyzer]
-command = "rust-analyzer"
+[[language]]
+name = "git-commit"
+scope = "git.commitmsg"
+roots = []
+file-types = ["COMMIT_EDITMSG"]
+comment-token = "#"
+indent = { tab-width = 2, unit = "  " }
 
-[language-server.rust-analyzer.config]
-inlayHints.bindingModeHints.enable = false
-inlayHints.closingBraceHints.minLines = 10
-inlayHints.closureReturnTypeHints.enable = "with_block"
-inlayHints.discriminantHints.enable = "fieldless"
-inlayHints.lifetimeElisionHints.enable = "skip_trivial"
-inlayHints.typeHints.hideClosureInitialization = false
+[[language]]
+name = "git-diff"
+scope = "source.diff"
+roots = []
+file-types = ["diff"]
+injection-regex = "diff"
+comment-token = "#"
+indent = { tab-width = 2, unit = "  " }
+
+[[language]]
+name = "git-rebase"
+scope = "source.gitrebase"
+roots = []
+file-types = ["git-rebase-todo"]
+injection-regex = "git-rebase"
+comment-token = "#"
+indent = { tab-width = 2, unit = " " }# Language support configuration.
+# See the languages documentation: https://docs.helix-editor.com/master/languages.html
 
 [[language]]
 name = "rust"
@@ -48,106 +77,103 @@ file-types = ["rs"]
 roots = ["Cargo.toml", "Cargo.lock"]
 auto-format = true
 comment-token = "//"
-language-servers = [ "rust-analyzer" ]
+language-server = { command = "rust-analyzer" }
 indent = { tab-width = 4, unit = "    " }
-
-[[grammar]]
-name = "rust"
-source = { git = "https://github.com/tree-sitter/tree-sitter-rust", rev = "0431a2c60828731f27491ee9fdefe25e250ce9c9" }
 
 [[language]]
-name = "python"
-scope = "source.python"
-injection-regex = "python"
-file-types = ["py","pyi","py3","pyw","ptl",".pythonstartup",".pythonrc","SConstruct"]
-shebangs = ["python"]
+name = "toml"
+scope = "source.toml"
+injection-regex = "toml"
+file-types = ["toml"]
 roots = []
 comment-token = "#"
-language-servers = [ "pylsp" ]
-# TODO: pyls needs utf-8 offsets
+indent = { tab-width = 4, unit = "    " }
+
+[[language]]
+name = "json"
+scope = "source.json"
+injection-regex = "json"
+file-types = ["json"]
+roots = []
+indent = { tab-width = 4, unit = "    " }
+
+[[language]]
+name = "c"
+scope = "source.c"
+injection-regex = "c"
+file-types = ["c"] # TODO: ["h"]
+roots = []
+comment-token = "//"
+language-server = { command = "clangd" }
+indent = { tab-width = 4, unit = "    " }
+
+[[language]]
+name = "cpp"
+scope = "source.cpp"
+injection-regex = "cpp"
+file-types = ["cc", "hh", "cpp", "hpp", "h", "ipp", "tpp", "cxx", "hxx", "ixx", "txx", "ino"]
+roots = []
+comment-token = "//"
+language-server = { command = "clangd" }
 indent = { tab-width = 4, unit = "    " }
 
 [[grammar]]
-name = "python"
-source = { git = "https://github.com/tree-sitter/tree-sitter-python", rev = "de221eccf9a221f5b85474a553474a69b4b5784d" }
+name = "cpp"
+source = { git = "https://github.com/tree-sitter/tree-sitter-cpp", rev = "2d2c4aee8672af4c7c8edff68e7dd4c07e88d2b1" }
 
 [[language]]
 name = "go"
 scope = "source.go"
 injection-regex = "go"
 file-types = ["go"]
-roots = ["go.work", "go.mod"]
+roots = ["Gopkg.toml", "go.mod"]
 auto-format = true
 comment-token = "//"
-language-servers = [ "gopls" ]
+language-server = { command = "gopls" }
 # TODO: gopls needs utf-8 offsets?
-indent = { tab-width = 4, unit = "\t" }
-
-[language.debugger]
-name = "go"
-transport = "tcp"
-command = "dlv"
-args = ["dap"]
-port-arg = "-l 127.0.0.1:{}"
-
-[language-server.gopls]
-command = "gopls"
-
-[language-server.gopls.config.hints]
-assignVariableTypes = true
-compositeLiteralFields = true
-constantValues = true
-functionTypeParameters = true
-parameterNames = true
-rangeVariableTypes = true
-
-[[grammar]]
-name = "go"
-source = { git = "https://github.com/tree-sitter/tree-sitter-go", rev = "64457ea6b73ef5422ed1687178d4545c3e91334a" }
+indent = { tab-width = 4, unit = "    " }
 
 [[language]]
-name = "gomod"
-scope = "source.gomod"
-injection-regex = "gomod"
-file-types = ["go.mod"]
+name = "javascript"
+scope = "source.js"
+injection-regex = "^(js|javascript)$"
+file-types = ["js", "mjs"]
+shebangs = ["node"]
 roots = []
-auto-format = true
 comment-token = "//"
-language-servers = [ "gopls" ]
-indent = { tab-width = 4, unit = "\t" }
-
-[[grammar]]
-name = "gomod"
-source = { git = "https://github.com/camdencheek/tree-sitter-go-mod", rev = "e8f51f8e4363a3d9a427e8f63f4c1bbc5ef5d8d0" }
+# TODO: highlights-jsx, highlights-params
+indent = { tab-width = 4, unit = "    " }
 
 [[language]]
-name = "gotmpl"
-scope = "source.gotmpl"
-injection-regex = "gotmpl"
-file-types = ["gotmpl"]
+name = "python"
+scope = "source.python"
+injection-regex = "python"
+file-types = ["py"]
+shebangs = ["python"]
 roots = []
-comment-token = "//"
-language-servers = [ "gopls" ]
-indent = { tab-width = 2, unit = " " }
-
-[[grammar]]
-name = "gotmpl"
-source = { git = "https://github.com/dannylongeuay/tree-sitter-go-template", rev = "395a33e08e69f4155156f0b90138a6c86764c979" }
+comment-token = "#"
+language-server = { command = "pylsp" }
+# TODO: pyls needs utf-8 offsets
+indent = { tab-width = 4, unit = "    " }
 
 [[language]]
-name = "gowork"
-scope = "source.gowork"
-injection-regex = "gowork"
-file-types = ["go.work"]
+name = "bash"
+scope = "source.bash"
+injection-regex = "bash"
+file-types = ["sh", "bash"]
+shebangs = ["sh", "bash", "dash"]
 roots = []
-auto-format = true
-comment-token = "//"
-language-servers = [ "gopls" ]
-indent = { tab-width = 4, unit = "\t" }
+comment-token = "#"
+language-server = { command = "bash-language-server", args = ["start"] }
+indent = { tab-width = 4, unit = "    " }
 
-[[grammar]]
-name = "gowork"
-source = { git = "https://github.com/omertuc/tree-sitter-go-work", rev = "6dd9dd79fb51e9f2abc829d5e97b15015b6a8ae2" }
+[[language]]
+name = "yaml"
+scope = "source.yaml"
+file-types = ["yml", "yaml"]
+roots = []
+comment-token = "#"
+indent = { tab-width = 4, unit = "    " }
 
 [[language]]
 name = "zig"
@@ -157,12 +183,58 @@ file-types = ["zig"]
 roots = ["build.zig"]
 auto-format = true
 comment-token = "//"
-language-servers = [ "zls" ]
+language-server = { command = "zls" }
 indent = { tab-width = 4, unit = "    " }
-formatter = { command = "zig" , args = ["fmt", "--stdin"] }
 
-[[grammar]]
-name = "zig"
-source = { git = "https://github.com/maxxnino/tree-sitter-zig", rev = "8d3224c3bd0890fe08358886ebf54fca2ed448a6" }
+[[language]]
+name = "cmake"
+scope = "source.cmake"
+file-types = ["cmake", "CMakeLists.txt"]
+roots = []
+comment-token = "#"
+language-server = { command = "cmake-language-server" }
+indent = { tab-width = 4, unit = "    " }
 
+[[language]]
+name = "markdown"
+scope = "source.md"
+injection-regex = "md|markdown"
+file-types = ["md"]
+roots = []
+indent = { tab-width = 4, unit = "    " }
 
+[[language]]
+name = "dockerfile"
+scope = "source.dockerfile"
+injection-regex = "docker|dockerfile"
+roots = ["Dockerfile"]
+file-types = ["Dockerfile", "dockerfile"]
+comment-token = "#"
+language-server = { command = "docker-langserver", args = ["--stdio"] }
+indent = { tab-width = 4, unit = "    " }
+
+[[language]]
+name = "git-commit"
+scope = "git.commitmsg"
+roots = []
+file-types = ["COMMIT_EDITMSG"]
+comment-token = "#"
+indent = { tab-width = 4, unit = "    " }
+
+[[language]]
+name = "git-diff"
+scope = "source.diff"
+roots = []
+file-types = ["diff"]
+injection-regex = "diff"
+comment-token = "#"
+indent = { tab-width = 4, unit = "    " }
+
+[[language]]
+name = "git-rebase"
+scope = "source.gitrebase"
+roots = []
+file-types = ["git-rebase-todo"]
+injection-regex = "git-rebase"
+comment-token = "#"
+indent = { tab-width = 4, unit = "    " }
