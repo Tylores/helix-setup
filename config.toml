@@ -1,0 +1,10 @@
+theme = "boo_berry"
+
+[editor]
+line-number = "relative"
+mouse = false
+bufferline = "multiple"
+true-color = true
+
+[keys.insert.j]
+j = "normal_mode"
